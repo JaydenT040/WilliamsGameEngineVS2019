@@ -3,6 +3,7 @@
 #include "MeteorSpawner.h"
 
 GameScene::GameScene() {
+
 	ShiPtr ship = std::make_shared<Ship>();
 	addGameObject(ship);
 
