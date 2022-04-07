@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Explosion.h"
 #include "Engine/GameEngine.h"
 
 class Meteor : public GameObject

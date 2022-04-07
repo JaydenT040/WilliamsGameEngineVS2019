@@ -1,4 +1,5 @@
 #include "Meteor.h"
+#include "GameScene.h"
 #include <iostream>
 const float SPEED = 0.25f;
 Meteor::Meteor(sf::Vector2f pos)
@@ -17,6 +18,8 @@ void Meteor::update(sf::Time& elapsed) {
 	sf::Vector2f pos = sprite_.getPosition();
 	if (pos.x < sprite_.getGlobalBounds().width * -1)
 	{
+		GameScene& scene = (GameScene&)GAME.getCurrentScene();
+		scene.decreaseLives();
 		makeDead();
 	}
 	else
@@ -32,7 +35,12 @@ sf::FloatRect Meteor::getCollisionRect() {
 void Meteor::handleCollision(GameObject& otherGameObject) {
 	if (otherGameObject.hasTag("laser")) {
 		otherGameObject.makeDead();
-		
+		sf::Vector2f pos = sprite_.getPosition();
+		ExplosionPtr explosion = std::make_shared<Explosion>(sf::Vector2f(pos.x, pos.y + sprite_.getGlobalBounds().height / 2));
+		//GAME.getCurrentScene().addGameObject(explosion);
+		GameScene& scene = (GameScene&)GAME.getCurrentScene();
+		scene.addGameObject(explosion);
+		scene.increaseScore();
 	}
 
 	makeDead();
